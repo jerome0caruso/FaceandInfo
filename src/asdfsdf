@@ -1,0 +1,63 @@
+import React, {useState} from 'react';
+import './FaceRecognition.css';
+import Data from '../Data/Data';
+import { COLOR_MODEL } from 'clarifai';
+
+const FaceRecognition = ({ imageUrl, data, boxInfo, numOfPeople, clear }) => {
+    const [info, setInfo] = useState();
+    let [flag, setFlag] = useState();
+
+
+    
+
+    const handleImage = () => {
+        let index = box.region_info.bounding_box;
+
+        const allBoxes = boxInfo.map(box => {
+        let image = document.getElementById('inputimage');
+        let w = Number(image.width);
+        let h = Number(image.height);
+        let leftCol = box.index.left_col * w;
+        let topRow = box.index.top_row * h;
+        let rightCol = w - (box.index.right_col * w);
+        let bottomRow = h - (box.index.bottom_row * h);
+        
+            //clear face box, using state to rerender and update
+            if(clear === false){
+                setFlag(1);
+                setInfo({
+                    top: topRow,
+                    right: rightCol,
+                    bottom: bottomRow,
+                    left: leftCol,
+                })
+            }  
+        })
+    }
+    if(clear === true && flag === 1) {
+        setFlag(0);
+        setInfo();
+      }
+            return (
+                <div className ='fr-container center ma'>
+                    <div className='fr-image'>
+                        <img id='inputimage' width='500px' heigh='auto' src={imageUrl}  alt="face"/>
+                        <div className='bounding-box' style={info}></div>
+                    </div>
+                    <div className='fr-data'>
+                        <h2>Picture Info</h2>
+                        <button onClick={handleImage}>Click to capture face</button>
+                        <h3>There is approximately {numOfPeople > 1 ? `${numOfPeople} faces` :`${numOfPeople} face` }  in the picture.</h3>
+                        <h3>This photo seems to be about:</h3>
+                        <ul className='three-things-list'>
+                            <Data dataP={data}/>
+                        </ul>
+                    </div>
+                    
+                </div>
+            );
+            
+        
+}
+
+export default FaceRecognition;
