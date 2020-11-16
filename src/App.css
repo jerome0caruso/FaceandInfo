@@ -2,6 +2,7 @@
   text-align: center;
 }
 
+
 .center {
   display: flex;
   justify-content: center;
@@ -10,11 +11,23 @@
 .header {
   display: flex;
   justify-content: space-between;
+  background-color: rgb(157, 179, 169);
   height: 65px;
+  margin: 20px;
 }
 
 .message {
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 30px;
+  font-size: 20px;
   padding: 30px;
+  color: red;
+}
+#startingText {
+  color: #000;
+}
+
+.login-btn {
+  padding: 28px 13px 13px 0;
+  margin: 2px 12px;;
+
 }

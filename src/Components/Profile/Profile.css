@@ -1,0 +1,13 @@
+.profileContainer {
+    display: flex;
+    justify-content: center;
+}
+.proTable {
+   width: 50%;
+   margin: 0 auto;
+   background-color: rgb(224, 222, 87);
+}
+.proTable h2 {
+    text-decoration: underline;
+    padding: 10px;
+}

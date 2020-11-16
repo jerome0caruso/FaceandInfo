@@ -2,13 +2,16 @@ import React, {useState} from 'react';
 import './FaceRecognition.css';
 import Data from '../Data/Data';
 
-const FaceRecognition = ({ imageUrl, data, boxInfo, numOfPeople, clear, error }) => {
+const FaceRecognition = ({ imageUrl, data, boxInfo, numOfPeople, clear, error}) => {
 
+    //checks to make sure the boxes exists before clearing
     let [flag, setFlag] = useState();
 
     const handleImage = () => {
+        
         let container = document.querySelector('.bounding-container');
-
+       
+        //creates the box dimensions
        return boxInfo.map(box => {
             let eachBox = box.region_info.bounding_box;   
             let image = document.getElementById('inputimage');
@@ -18,7 +21,8 @@ const FaceRecognition = ({ imageUrl, data, boxInfo, numOfPeople, clear, error })
             let topRow = eachBox.top_row * h;
             let rightCol = w - (eachBox.right_col * w);
             let bottomRow = h - (eachBox.bottom_row * h);
-
+        
+            //setting the face boxes on click
             if (clear === false){
                 setFlag(1);
                 let newDiv = document.createElement("div");
@@ -28,7 +32,7 @@ const FaceRecognition = ({ imageUrl, data, boxInfo, numOfPeople, clear, error })
             } 
         })
     }
-console.log(error.length)
+    //clear the face boxes
     if(clear === true && flag === 1) {
         setFlag(0);
         let divsToRemove = document.querySelectorAll('.bounding-box');
@@ -45,12 +49,20 @@ console.log(error.length)
                     </div>
                     <div className='fr-data'>
                         <h2>Picture Info</h2>
-                        <button disabled={error.length > 1} onClick={handleImage}>Click to capture face</button>
-                        <h3>There is approximately {numOfPeople > 1 ? `${numOfPeople} faces` :`${numOfPeople} face` }  in the picture.</h3>
-                        <h3>This photo seems to be about:</h3>
-                        <ul className='three-things-list'>
-                            <Data dataP={data}/>
-                        </ul>
+                        <button class="capture-btn" disabled={error.length > 1} onClick={handleImage}>Click to capture face</button>
+                        <table class="table">
+                            <tr>
+                                <th><h3>There are approximately {numOfPeople > 1 ? `${numOfPeople} faces` :`${numOfPeople} face` }  in the picture.</h3></th>
+                            </tr>
+                            <tr>
+                                <th><h3>This photo seems to be about:</h3>
+                                <ul className='three-things-list'>
+                                    <Data dataP={data}/>
+                                </ul></th>
+                            </tr>
+                            
+                        </table>
+                        
                     </div>
                     
                 </div>

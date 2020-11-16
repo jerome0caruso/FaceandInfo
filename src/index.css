@@ -2,7 +2,11 @@
 body {
   margin: 0;
   font-family: 'Libre Franklin', 'Courier New', Courier, monospace;
-  background: rgb(158, 158, 158);
+  background: rgb(239, 248, 216);
+  background: linear-gradient(to right, rgba(221, 221, 36, 0.8), rgba(221, 221, 36, 0.8)), url(imagebg.jpg);
+  background-position: center;
+  background-size: cover;
+  height:100vh; 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

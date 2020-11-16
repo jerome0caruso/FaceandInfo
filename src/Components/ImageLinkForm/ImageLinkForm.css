@@ -1,3 +1,17 @@
 .form {
     width: 700px;
 }
+.main-btn {
+    background-color: rgb(95, 158, 160);
+    border-radius: 3px;
+}
+.main-btn:hover {
+    -webkit-transition: color .2s;
+    transition: background-color .8s;  
+    background-color: rgb(128, 198, 201);
+    color: rgb(34, 34, 34);
+} 
+
+.input-background {
+    background-color: rgb(218, 212, 132);
+}
