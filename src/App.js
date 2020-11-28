@@ -93,7 +93,7 @@ const loadUser = (data) => {
       setIsSignedIn(Object.assign(isSignedIn, { profiled: false }))
       
     }
-    if(route === 'profile') {
+    else if(route === 'profile') {
       setIsSignedIn(Object.assign(isSignedIn, { profiled: true }))
     }
     setRoute(route);

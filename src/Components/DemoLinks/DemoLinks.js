@@ -29,7 +29,7 @@ const DemoLinks = () => {
     }
     
     return(
-        <div className="demo-container">
+        <div id="demo-links" className="demo-container">
             <div className="demo-innerContainer">
                 <label className="demo-label">Demo Hiking Image</label>
                 <input className='1' type="Text" value={phrase1}></input>

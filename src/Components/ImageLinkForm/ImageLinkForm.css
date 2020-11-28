@@ -2,13 +2,13 @@
     width: 45%;
 }
 .main-btn {
-    background-color: rgb(95, 158, 160);
+    background-color: rgb(73, 157, 212);
     border-radius: 3px;
 }
 .main-btn:hover {
     -webkit-transition: color .2s;
     transition: background-color .8s;  
-    background-color: rgb(128, 198, 201);
+    background-color: rgb(73, 157, 212);
     color: rgb(34, 34, 34);
 } 
 
