@@ -164,7 +164,10 @@ const loadUser = (data) => {
     .then((GeneralModel) => GeneralModel.predict(input))
     .then((response) => {
       return response;
-    }).catch(err => console.log(err));
+    }).catch(err =>{
+      console.log(err)
+      setError("I'm sorry we cannot find any faces on this image, please try a different image or link")
+    })
 
     //waits for both api calls before setting state
     Promise.all([faceGet, dataGet]).then((response) => {
