@@ -23,6 +23,7 @@ function App() {
   const [route, setRoute] = useState('signIn');
   const [clear, setClear] = useState(false);
   const [error, setError] = useState('');
+  const [stopHittingBtn, setStopHittingBtn] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(
     {
       loggedIn: false,
@@ -110,14 +111,23 @@ const loadUser = (data) => {
   const calculatePeople = (data) => {
     setBox(data.data.regions);
     setPeople(data.data.regions.length); 
+    
   }
 
-  //setting url input to state
+  //setting url input to state//////////////////////////////////////////////////
   const onInputChange = (event) => {
+   
     setInput(event.target.value);
+    setTimeout(() => setStopHittingBtn(false), 500);
   } 
 
   const onSubmit = () => {
+    //Disables submit button pressed too many times before api gets back
+    setStopHittingBtn(true);
+    
+    console.log("click!!")
+    //
+
     setError('');
     setClear(false);
     //if no valid image submitted use default
@@ -172,9 +182,9 @@ const loadUser = (data) => {
     //waits for both api calls before setting state
     Promise.all([faceGet, dataGet]).then((response) => {
      //objects from the api/face location and info
-     console.log(response)
       calculatePeople(response[0].outputs[0]);
       setData(response[1].outputs[0].data.concepts);
+      setStopHittingBtn(true);
     })
     .catch(err =>{
       console.log(err)
@@ -191,7 +201,7 @@ const loadUser = (data) => {
       {route === 'profile' ? <Profile user={user} entries={user.entries} /> :route === 'home' ? 
         <div>
           <Rank name={user?.name} entries={user?.entries}/>
-          <ImageLinkForm onInChange={onInputChange} clearField={onClear} onButtonSub={onSubmit}/>
+          <ImageLinkForm onInChange={onInputChange} btnSmash={stopHittingBtn} clearField={onClear} onButtonSub={onSubmit}/>
           <div className="message">
             {error.length > 1 ? error :<span id="startingText">Please enter a URL for an Image</span> }
           </div>
