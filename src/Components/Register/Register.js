@@ -7,13 +7,22 @@ function Register({loadUser, onRouteChange}) {
   const [password, setPassword] = useState();
   const [name, setName] = useState();
   const [isValid, setIsValid] = useState(true);
-
+  const [vEmail, setvEmail] = useState();
 
   const onNameChange = (event) => {
     setName(event.target.value);
   }
   const onEmailChange = (event) => {
-    setEmail(event.target.value);
+    let regex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+    let validEmail = regex.test(String(event.target.value).toLowerCase());
+    
+    if(validEmail) {
+      setvEmail(true);
+      setEmail(event.target.value);
+    } else {
+      setvEmail(false);
+    }
+    
   }
   const onPasswordChange = (event) => {
     setPassword(event.target.value);
@@ -22,7 +31,7 @@ function Register({loadUser, onRouteChange}) {
     
     // onRouteChange('home');
     //normally does a get, with second param, we can set an obj to spec.
-    fetch('http://localhost:3000/register', {
+    fetch('https://tranquil-savannah-71167.herokuapp.com/register', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -50,6 +59,7 @@ function Register({loadUser, onRouteChange}) {
             <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
               <legend className="f1 fw6 ph0 mh0">Register</legend>
               <span style={{ display: isValid === false? "inherit" : "none" }}>Please fill in the fields</span>
+              <span style={{ display: vEmail=== false? "inherit" : "none" }}>Please enter a correct email</span>
               <div className="mt3">
                 <label className="db fw6 lh-copy f6" htmlFor="name">Name</label>
                 <input
@@ -67,7 +77,7 @@ function Register({loadUser, onRouteChange}) {
                   type="email"
                   name="email-address"
                   id="email-address"
-                  onChange={onEmailChange}
+                  onBlur={onEmailChange}
                 />
               </div>
               <div className="mv3">

@@ -49,8 +49,10 @@ const FaceRecognition = ({ imageUrl, data, boxInfo, numOfPeople, clear, error}) 
                     </div>
                     <div className='fr-data'>
                         <h2>Picture Info</h2>
-                        <button class="capture-btn" disabled={error.length > 1} onClick={handleImage}>Click to capture face</button>
-                        <table class="table">
+                        <button className="capture-btn" disabled={error.length > 1} onClick={handleImage}>Click to capture face</button>
+                        <table className="table">
+                            <tbody>
+                            
                             <tr>
                                 <th><h3>There are approximately {numOfPeople > 1 ? `${numOfPeople} faces` :`${numOfPeople} face` }  in the picture.</h3></th>
                             </tr>
@@ -60,7 +62,7 @@ const FaceRecognition = ({ imageUrl, data, boxInfo, numOfPeople, clear, error}) 
                                     <Data dataP={data}/>
                                 </ul></th>
                             </tr>
-                            
+                            </tbody>
                         </table>
                         
                     </div>

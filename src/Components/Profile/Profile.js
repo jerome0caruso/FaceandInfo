@@ -5,7 +5,7 @@ function Profile({user, entries}) {
 
     console.log(user.id, "here")
 
-    fetch(`http://localhost:3000/profile/${user.id}`, {
+    fetch(`https://tranquil-savannah-71167.herokuapp.com/profile/${user.id}`, {
       method: 'get',
       headers: {'Content-Type': 'application/json'},
     })

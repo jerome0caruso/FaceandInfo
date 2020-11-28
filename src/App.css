@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat+Subrayada:wght@700&display=swap');
+
 .App {
   text-align: center;
 }
@@ -10,10 +12,10 @@
 
 .header {
   display: flex;
-  justify-content: space-between;
-  background-color: rgb(157, 179, 169);
+  background-color: rgb(150, 188, 214);
   height: 65px;
   margin: 20px;
+  justify-content: space-between;
 }
 
 .message {
@@ -30,4 +32,22 @@
   padding: 28px 13px 13px 0;
   margin: 2px 12px;;
 
+}
+
+.nav {
+  display: flex;
+  
+}
+
+.navRight {
+ display: flex;
+}
+
+.navCenter {
+ margin: 0 auto;
+}
+.navCenter h1 {
+  font-size: 37px;
+  color: rgb(22, 39, 43);
+  font-family: 'Montserrat Subrayada', sans-serif;
 }

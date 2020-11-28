@@ -7,10 +7,22 @@ function SignIn({loadUser, onRouteChange, updateEntries}){
   const [signInEmail, setSignInEmail] = useState('');
   const [signInPassword, setSignInPassword] = useState();
   const [isValid, setIsValid] = useState(true);
+  const [vEmail, setvEmail] = useState();
+
  
 
   const onEmailChange = (event) => {
-    setSignInEmail({signInEmail: event.target.value})
+
+    let regex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+    let validEmail = regex.test(String(event.target.value).toLowerCase());
+    
+    if(validEmail) {
+      setvEmail(true);
+      setSignInEmail({signInEmail: event.target.value})
+    } else {
+      setvEmail(false);
+    }
+    
   }
 
   const onPasswordChange = (event) => {
@@ -20,7 +32,7 @@ function SignIn({loadUser, onRouteChange, updateEntries}){
   const onSubmitSignIn = () => {
     
     //normally does a get, with second param, we can set an obj to spec.
-    fetch('http://localhost:3000/signin', {
+    fetch('https://tranquil-savannah-71167.herokuapp.com/signin', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -31,12 +43,10 @@ function SignIn({loadUser, onRouteChange, updateEntries}){
       .then(response => response.json())
       .then(user => {
         if (user.id) {
-          console.log(user.id)
           loadUser(user);
           onRouteChange('home');
         } else {
           setIsValid(false);
-          console.log("heee")
         }
       })
   }
@@ -48,7 +58,8 @@ function SignIn({loadUser, onRouteChange, updateEntries}){
           <div className="measure">
             <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
               <legend className="f1 fw6 ph0 mh0">Sign In</legend>
-              <span style={{ display: isValid === false? "inherit" : "none" }}>Please fill in the fields</span>
+              <span style={{ display: isValid === false? "inherit" : "none" }}>Please fill in the fields correctly</span>
+              <span style={{ display: vEmail === false? "inherit" : "none" }}>Please enter a correct email</span>
               <div className="mt3">
                 <label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>
                 <input
@@ -56,7 +67,7 @@ function SignIn({loadUser, onRouteChange, updateEntries}){
                   type="email"
                   name="email-address"
                   id="email-address"
-                  onChange={onEmailChange}
+                  onBlur={onEmailChange}
                 />
               </div>
               <div className="mv3">

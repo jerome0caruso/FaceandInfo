@@ -4,7 +4,6 @@ import '../../App.css';
 
 
 const Navigation = ({ onRouteChange, isSignedIn }) => {
-
     if (isSignedIn.loggedIn) {
         return (
           <nav style={{display: 'flex', justifyContent: 'flex-end'}}>
@@ -14,9 +13,15 @@ const Navigation = ({ onRouteChange, isSignedIn }) => {
         );
       } else {
         return (
-          <nav style={{display: 'flex', justifyContent: 'flex-end'}}>
-            <p onClick={() => onRouteChange('signIn')} className='f3 link dim black  pointer login-btn'>Sign In</p>
-            <p onClick={() => onRouteChange('register')} className='f3 link dim black pointer login-btn'>Register</p>
+          <nav className="nav">
+              <div className="navRight">
+                <p onClick={() => onRouteChange('signIn')} className='f3 link dim black  pointer login-btn'>Sign In</p>
+                <p onClick={() => onRouteChange('register')} className='f3 link dim black pointer login-btn'>Register</p>
+              </div>
+          
+            <div className="navCenter">
+              <h1>Welcome to Capture</h1>
+            </div>
           </nav>
         );
       }

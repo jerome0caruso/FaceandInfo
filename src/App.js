@@ -1,17 +1,18 @@
 import React, {useState, useEffect } from 'react';
 import Navigation from './Components/Navigation/Navigation';
 import Clarifai from 'clarifai';
-import Logo from './Components/Logo/Logo';
 import Rank from './Components/Rank/Rank';
 import ImageLinkForm from './Components/ImageLinkForm/ImageLinkForm';
 import FaceRecognition from './Components/FaceRecognition/FaceRecognition';
+import FaceBlank from './Components/FaceRecognition/FaceBlank';
 import Register from './Components/Register/Register';
 import SignIn from './Components/SignIn/SignIn';
+import DemoLinks from './Components/DemoLinks/DemoLinks';
 import 'tachyons';
 import './App.css';
 import defaultImage from './BlackBox.jpg'
 import Profile from './Components/Profile/Profile'
-
+import CryptoJS from 'crypto-js';
 
 function App() {
   const [input, setInput] = useState('');
@@ -47,9 +48,20 @@ const loadUser = (data) => {
       joined: data.joined 
     });
 }
-  const app = new Clarifai.App({
-    apiKey: '765497e68c3b4da09130631e198afbef'
-  });
+  let app;
+//encypt api key and store server side 
+  fetch(`https://tranquil-savannah-71167.herokuapp.com/apikey`, {
+    method: 'get',
+    headers: {'Content-Type': 'application/json'},
+  })
+    .then(response => response.json())
+    .then(ciphertext => {
+      const bytes  = CryptoJS.AES.decrypt(ciphertext, 'key');
+      const originalText = bytes.toString(CryptoJS.enc.Utf8);
+      app = new Clarifai.App({
+        apiKey: originalText
+      });
+  })
 
 
   const onRouteChange = (route) => {
@@ -116,13 +128,13 @@ const loadUser = (data) => {
     .initModel({
       id: Clarifai.FACE_DETECT_MODEL,
     })
-    .then((faceDetectModel) => faceDetectModel.predict(input))
+    .then((faceDetectModel) => faceDetectModel.predict(input))   
     .then((response) => {
-      console.log(input.length)
+      console.log(response)
       if(response && input.length > 1){
         //allows the update and grabs the previous stored counts from DB
         setClear(true)
-        fetch('http://localhost:3000/image', {
+        fetch('https://tranquil-savannah-71167.herokuapp.com/image', {
           method: 'put',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
@@ -139,7 +151,10 @@ const loadUser = (data) => {
         .catch(console.log)
       }
       return response;
-    }).catch(err => console.log(err));
+    }).catch(err => {
+      setError("I'm sorry we cannot find any faces on this image, please try a different image or link");
+      console.log(err)
+    });
 
      //2nd api call to get image data
     let dataGet = app.models
@@ -154,6 +169,7 @@ const loadUser = (data) => {
     //waits for both api calls before setting state
     Promise.all([faceGet, dataGet]).then((response) => {
      //objects from the api/face location and info
+     console.log(response)
       calculatePeople(response[0].outputs[0]);
       setData(response[1].outputs[0].data.concepts);
     })
@@ -163,7 +179,6 @@ const loadUser = (data) => {
     })
   }
 
-console.log(isSignedIn)
   return (
     <div className="App">
       <div className="header">
@@ -172,13 +187,14 @@ console.log(isSignedIn)
       
       {route === 'profile' ? <Profile user={user} entries={user.entries} /> :route === 'home' ? 
         <div>
-          <Rank name={user.name} entries={user.entries}/>
+          <Rank name={user?.name} entries={user?.entries}/>
           <ImageLinkForm onInChange={onInputChange} clearField={onClear} onButtonSub={onSubmit}/>
           <div className="message">
             {error.length > 1 ? error :<span id="startingText">Please enter a URL for an Image</span> }
           </div>
           
-          {data  === undefined ? null : <FaceRecognition data={data} error={error} clear={clear} imageUrl={imageUrl} numOfPeople={people} boxInfo={box}/>}
+          {data  === undefined ? <FaceBlank /> : <FaceRecognition data={data} error={error} clear={clear} imageUrl={imageUrl} numOfPeople={people} boxInfo={box}/>}
+          <DemoLinks />
         </div>
         : ( route === 'signIn' 
             ? <div className="in"><SignIn loadUser={loadUser} onRouteChange={onRouteChange} /> </div>

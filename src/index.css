@@ -3,7 +3,7 @@ body {
   margin: 0;
   font-family: 'Libre Franklin', 'Courier New', Courier, monospace;
   background: rgb(239, 248, 216);
-  background: linear-gradient(to right, rgba(221, 221, 36, 0.8), rgba(221, 221, 36, 0.8)), url(imagebg.jpg);
+  background: linear-gradient(to right, rgba(49, 112, 163, 0.8), rgba(49, 112, 163, 0.8)), url(imagebg.jpg);
   background-position: center;
   background-size: cover;
   height:100vh; 

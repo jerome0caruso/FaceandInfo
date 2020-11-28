@@ -1,0 +1,21 @@
+.demo-container {
+    margin: 2em auto;
+    width: 35%;
+    background-color: rgb(240, 148, 73);
+    padding: 2em;
+    font-size: 1.1rem;
+}
+
+.demo-label {
+    margin: .8em;
+}
+
+.demo-container input{
+    width: 40%;
+    margin: .3em 0;
+}
+
+.demo-innerContainer {
+    margin: 1em;
+    background-color: #fff;
+}
